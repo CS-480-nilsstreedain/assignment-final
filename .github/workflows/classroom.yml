@@ -1,0 +1,283 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup compiler toolchain &#40;Flex&#44; Bison&#44; LLVM&#41;
+      id: setup-compiler-toolchain-40-flex-44-bison-44-llvm-41
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Setup compiler toolchain &#40;Flex&#44; Bison&#44; LLVM&#41;
+        setup-command: wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo
+          apt-key add -
+        command: sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-13
+          main" && sudo apt-get update && sudo apt-get install -y llvm-13-dev bison
+          flex
+        timeout: 10
+        max-score: 0
+    - name: Setup bats &#40;for unit testing&#41;
+      id: setup-bats-40-for-unit-testing-41
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Setup bats &#40;for unit testing&#41;
+        setup-command: git clone https://github.com/bats-core/bats-core.git
+        command: cd bats-core && sudo ./install.sh /usr/local
+        timeout: 10
+        max-score: 0
+    - name: Correct LLVM IR generated for straightline_1.py
+      id: correct-llvm-ir-generated-for-straightline_1-py
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Correct LLVM IR generated for straightline_1.py
+        setup-command: make
+        command: bats -f straightline_1 tests/straightline_llvm_ir.bats
+        timeout: 10
+        max-score: 10
+    - name: Correct LLVM IR generated for straightline_2.py
+      id: correct-llvm-ir-generated-for-straightline_2-py
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Correct LLVM IR generated for straightline_2.py
+        setup-command: make
+        command: bats -f straightline_2 tests/straightline_llvm_ir.bats
+        timeout: 10
+        max-score: 10
+    - name: Correct LLVM IR generated for straightline_3.py
+      id: correct-llvm-ir-generated-for-straightline_3-py
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Correct LLVM IR generated for straightline_3.py
+        setup-command: make
+        command: bats -f straightline_3 tests/straightline_llvm_ir.bats
+        timeout: 10
+        max-score: 10
+    - name: Correct LLVM IR generated for straightline_4.py
+      id: correct-llvm-ir-generated-for-straightline_4-py
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Correct LLVM IR generated for straightline_4.py
+        setup-command: make
+        command: bats -f straightline_4 tests/straightline_llvm_ir.bats
+        timeout: 10
+        max-score: 10
+    - name: Correct LLVM IR generated for straightline_5.py
+      id: correct-llvm-ir-generated-for-straightline_5-py
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Correct LLVM IR generated for straightline_5.py
+        setup-command: make
+        command: bats -f straightline_5 tests/straightline_llvm_ir.bats
+        timeout: 10
+        max-score: 10
+    - name: Correct object code generated for straightline_1.py
+      id: correct-object-code-generated-for-straightline_1-py
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Correct object code generated for straightline_1.py
+        setup-command: make
+        command: bats -f straightline_1 tests/straightline_obj_code.bats
+        timeout: 10
+        max-score: 2
+    - name: Correct object code generated for straightline_2.py
+      id: correct-object-code-generated-for-straightline_2-py
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Correct object code generated for straightline_2.py
+        setup-command: make
+        command: bats -f straightline_2 tests/straightline_obj_code.bats
+        timeout: 10
+        max-score: 2
+    - name: Correct object code generated for straightline_3.py
+      id: correct-object-code-generated-for-straightline_3-py
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Correct object code generated for straightline_3.py
+        setup-command: make
+        command: bats -f straightline_3 tests/straightline_obj_code.bats
+        timeout: 10
+        max-score: 2
+    - name: Correct object code generated for straightline_4.py
+      id: correct-object-code-generated-for-straightline_4-py
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Correct object code generated for straightline_4.py
+        setup-command: make
+        command: bats -f straightline_4 tests/straightline_obj_code.bats
+        timeout: 10
+        max-score: 2
+    - name: Correct object code generated for straightline_5.py
+      id: correct-object-code-generated-for-straightline_5-py
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Correct object code generated for straightline_5.py
+        setup-command: make
+        command: bats -f straightline_5 tests/straightline_obj_code.bats
+        timeout: 10
+        max-score: 2
+    - name: Correct object code generated for ifelse_1.py
+      id: correct-object-code-generated-for-ifelse_1-py
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Correct object code generated for ifelse_1.py
+        setup-command: make
+        command: bats -f ifelse_1 tests/ifelse_obj_code.bats
+        timeout: 10
+        max-score: 2
+    - name: Correct object code generated for ifelse_2.py
+      id: correct-object-code-generated-for-ifelse_2-py
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Correct object code generated for ifelse_2.py
+        setup-command: make
+        command: bats -f ifelse_2 tests/ifelse_obj_code.bats
+        timeout: 10
+        max-score: 2
+    - name: Correct object code generated for ifelse_3.py
+      id: correct-object-code-generated-for-ifelse_3-py
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Correct object code generated for ifelse_3.py
+        setup-command: make
+        command: bats -f ifelse_3 tests/ifelse_obj_code.bats
+        timeout: 10
+        max-score: 2
+    - name: Correct object code generated for ifelse_4.py
+      id: correct-object-code-generated-for-ifelse_4-py
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Correct object code generated for ifelse_4.py
+        setup-command: make
+        command: bats -f ifelse_4 tests/ifelse_obj_code.bats
+        timeout: 10
+        max-score: 2
+    - name: Correct object code generated for ifelse_5.py
+      id: correct-object-code-generated-for-ifelse_5-py
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Correct object code generated for ifelse_5.py
+        setup-command: make
+        command: bats -f ifelse_5 tests/ifelse_obj_code.bats
+        timeout: 10
+        max-score: 2
+    - name: Correct LLVM IR generated for while_1.py
+      id: correct-llvm-ir-generated-for-while_1-py
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Correct LLVM IR generated for while_1.py
+        setup-command: make
+        command: bats -f while_1 tests/while_llvm_ir.bats
+        timeout: 10
+        max-score: 5
+    - name: Correct LLVM IR generated for while_2.py
+      id: correct-llvm-ir-generated-for-while_2-py
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Correct LLVM IR generated for while_2.py
+        setup-command: make
+        command: bats -f while_2 tests/while_llvm_ir.bats
+        timeout: 10
+        max-score: 5
+    - name: Correct LLVM IR generated for while_3.py
+      id: correct-llvm-ir-generated-for-while_3-py
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Correct LLVM IR generated for while_3.py
+        setup-command: make
+        command: bats -f while_3 tests/while_llvm_ir.bats
+        timeout: 10
+        max-score: 5
+    - name: Correct LLVM IR generated for while_4.py
+      id: correct-llvm-ir-generated-for-while_4-py
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Correct LLVM IR generated for while_4.py
+        setup-command: make
+        command: bats -f while_4 tests/while_llvm_ir.bats
+        timeout: 10
+        max-score: 5
+    - name: Correct LLVM IR generated for ifelse_1.py
+      id: correct-llvm-ir-generated-for-ifelse_1-py
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Correct LLVM IR generated for ifelse_1.py
+        setup-command: make
+        command: bats -f ifelse_1 tests/ifelse_llvm_ir.bats
+        timeout: 10
+        max-score: 6
+    - name: Correct LLVM IR generated for ifelse_2.py
+      id: correct-llvm-ir-generated-for-ifelse_2-py
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Correct LLVM IR generated for ifelse_2.py
+        setup-command: make
+        command: bats -f ifelse_2 tests/ifelse_llvm_ir.bats
+        timeout: 10
+        max-score: 6
+    - name: Correct LLVM IR generated for ifelse_3.py
+      id: correct-llvm-ir-generated-for-ifelse_3-py
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Correct LLVM IR generated for ifelse_3.py
+        setup-command: make
+        command: bats -f ifelse_3 tests/ifelse_llvm_ir.bats
+        timeout: 10
+        max-score: 6
+    - name: Correct LLVM IR generated for ifelse_4.py
+      id: correct-llvm-ir-generated-for-ifelse_4-py
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Correct LLVM IR generated for ifelse_4.py
+        setup-command: make
+        command: bats -f ifelse_4 tests/ifelse_llvm_ir.bats
+        timeout: 10
+        max-score: 6
+    - name: Correct LLVM IR generated for ifelse_5.py
+      id: correct-llvm-ir-generated-for-ifelse_5-py
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Correct LLVM IR generated for ifelse_5.py
+        setup-command: make
+        command: bats -f ifelse_5 tests/ifelse_llvm_ir.bats
+        timeout: 10
+        max-score: 6
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        SETUP-COMPILER-TOOLCHAIN-40-FLEX-44-BISON-44-LLVM-41_RESULTS: "${{steps.setup-compiler-toolchain-40-flex-44-bison-44-llvm-41.outputs.result}}"
+        SETUP-BATS-40-FOR-UNIT-TESTING-41_RESULTS: "${{steps.setup-bats-40-for-unit-testing-41.outputs.result}}"
+        CORRECT-LLVM-IR-GENERATED-FOR-STRAIGHTLINE_1-PY_RESULTS: "${{steps.correct-llvm-ir-generated-for-straightline_1-py.outputs.result}}"
+        CORRECT-LLVM-IR-GENERATED-FOR-STRAIGHTLINE_2-PY_RESULTS: "${{steps.correct-llvm-ir-generated-for-straightline_2-py.outputs.result}}"
+        CORRECT-LLVM-IR-GENERATED-FOR-STRAIGHTLINE_3-PY_RESULTS: "${{steps.correct-llvm-ir-generated-for-straightline_3-py.outputs.result}}"
+        CORRECT-LLVM-IR-GENERATED-FOR-STRAIGHTLINE_4-PY_RESULTS: "${{steps.correct-llvm-ir-generated-for-straightline_4-py.outputs.result}}"
+        CORRECT-LLVM-IR-GENERATED-FOR-STRAIGHTLINE_5-PY_RESULTS: "${{steps.correct-llvm-ir-generated-for-straightline_5-py.outputs.result}}"
+        CORRECT-OBJECT-CODE-GENERATED-FOR-STRAIGHTLINE_1-PY_RESULTS: "${{steps.correct-object-code-generated-for-straightline_1-py.outputs.result}}"
+        CORRECT-OBJECT-CODE-GENERATED-FOR-STRAIGHTLINE_2-PY_RESULTS: "${{steps.correct-object-code-generated-for-straightline_2-py.outputs.result}}"
+        CORRECT-OBJECT-CODE-GENERATED-FOR-STRAIGHTLINE_3-PY_RESULTS: "${{steps.correct-object-code-generated-for-straightline_3-py.outputs.result}}"
+        CORRECT-OBJECT-CODE-GENERATED-FOR-STRAIGHTLINE_4-PY_RESULTS: "${{steps.correct-object-code-generated-for-straightline_4-py.outputs.result}}"
+        CORRECT-OBJECT-CODE-GENERATED-FOR-STRAIGHTLINE_5-PY_RESULTS: "${{steps.correct-object-code-generated-for-straightline_5-py.outputs.result}}"
+        CORRECT-OBJECT-CODE-GENERATED-FOR-IFELSE_1-PY_RESULTS: "${{steps.correct-object-code-generated-for-ifelse_1-py.outputs.result}}"
+        CORRECT-OBJECT-CODE-GENERATED-FOR-IFELSE_2-PY_RESULTS: "${{steps.correct-object-code-generated-for-ifelse_2-py.outputs.result}}"
+        CORRECT-OBJECT-CODE-GENERATED-FOR-IFELSE_3-PY_RESULTS: "${{steps.correct-object-code-generated-for-ifelse_3-py.outputs.result}}"
+        CORRECT-OBJECT-CODE-GENERATED-FOR-IFELSE_4-PY_RESULTS: "${{steps.correct-object-code-generated-for-ifelse_4-py.outputs.result}}"
+        CORRECT-OBJECT-CODE-GENERATED-FOR-IFELSE_5-PY_RESULTS: "${{steps.correct-object-code-generated-for-ifelse_5-py.outputs.result}}"
+        CORRECT-LLVM-IR-GENERATED-FOR-WHILE_1-PY_RESULTS: "${{steps.correct-llvm-ir-generated-for-while_1-py.outputs.result}}"
+        CORRECT-LLVM-IR-GENERATED-FOR-WHILE_2-PY_RESULTS: "${{steps.correct-llvm-ir-generated-for-while_2-py.outputs.result}}"
+        CORRECT-LLVM-IR-GENERATED-FOR-WHILE_3-PY_RESULTS: "${{steps.correct-llvm-ir-generated-for-while_3-py.outputs.result}}"
+        CORRECT-LLVM-IR-GENERATED-FOR-WHILE_4-PY_RESULTS: "${{steps.correct-llvm-ir-generated-for-while_4-py.outputs.result}}"
+        CORRECT-LLVM-IR-GENERATED-FOR-IFELSE_1-PY_RESULTS: "${{steps.correct-llvm-ir-generated-for-ifelse_1-py.outputs.result}}"
+        CORRECT-LLVM-IR-GENERATED-FOR-IFELSE_2-PY_RESULTS: "${{steps.correct-llvm-ir-generated-for-ifelse_2-py.outputs.result}}"
+        CORRECT-LLVM-IR-GENERATED-FOR-IFELSE_3-PY_RESULTS: "${{steps.correct-llvm-ir-generated-for-ifelse_3-py.outputs.result}}"
+        CORRECT-LLVM-IR-GENERATED-FOR-IFELSE_4-PY_RESULTS: "${{steps.correct-llvm-ir-generated-for-ifelse_4-py.outputs.result}}"
+        CORRECT-LLVM-IR-GENERATED-FOR-IFELSE_5-PY_RESULTS: "${{steps.correct-llvm-ir-generated-for-ifelse_5-py.outputs.result}}"
+      with:
+        runners: setup-compiler-toolchain-40-flex-44-bison-44-llvm-41,setup-bats-40-for-unit-testing-41,correct-llvm-ir-generated-for-straightline_1-py,correct-llvm-ir-generated-for-straightline_2-py,correct-llvm-ir-generated-for-straightline_3-py,correct-llvm-ir-generated-for-straightline_4-py,correct-llvm-ir-generated-for-straightline_5-py,correct-object-code-generated-for-straightline_1-py,correct-object-code-generated-for-straightline_2-py,correct-object-code-generated-for-straightline_3-py,correct-object-code-generated-for-straightline_4-py,correct-object-code-generated-for-straightline_5-py,correct-object-code-generated-for-ifelse_1-py,correct-object-code-generated-for-ifelse_2-py,correct-object-code-generated-for-ifelse_3-py,correct-object-code-generated-for-ifelse_4-py,correct-object-code-generated-for-ifelse_5-py,correct-llvm-ir-generated-for-while_1-py,correct-llvm-ir-generated-for-while_2-py,correct-llvm-ir-generated-for-while_3-py,correct-llvm-ir-generated-for-while_4-py,correct-llvm-ir-generated-for-ifelse_1-py,correct-llvm-ir-generated-for-ifelse_2-py,correct-llvm-ir-generated-for-ifelse_3-py,correct-llvm-ir-generated-for-ifelse_4-py,correct-llvm-ir-generated-for-ifelse_5-py
