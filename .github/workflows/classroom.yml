@@ -20,8 +20,9 @@ jobs:
         test-name: Setup compiler toolchain &#40;Flex&#44; Bison&#44; LLVM&#41;
         setup-command: wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo
           apt-key add -
+        # Updated LLVM version to fix depency errors
         command: sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-13
-          main" && sudo apt-get update && sudo apt-get install -y llvm-13-dev bison
+          main" && sudo apt-get update && sudo apt-get install -y llvm-dev bison
           flex
         timeout: 10
         max-score: 0

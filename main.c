@@ -5,6 +5,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "lib/hash.h"
 #include "ast/ast.h"
@@ -27,7 +28,11 @@ int main(int argc, char const *argv[]) {
     symbols = hash_create();
     if (!yylex()) {
         if (ast) {
-            printf("%s", generate_graphviz(ast));
+            char* llvm_ir = generate_llvm_ir(ast);
+            printf("%s", llvm_ir);
+            if (argc > 1)
+                generate_object_code(llvm_ir, argv[1]);
+            free(llvm_ir);
             ast_node_free(ast);
         }
     }

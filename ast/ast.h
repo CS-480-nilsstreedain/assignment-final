@@ -177,4 +177,8 @@ struct ast_node* break_stmt_node_create();
  */
 char* generate_graphviz(struct ast_node* n);
 
+char* generate_llvm_ir(struct ast_node* root);
+
+void generate_object_code(const char* llvm_ir, const char* output_file);
+
 #endif
